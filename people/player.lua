@@ -35,8 +35,9 @@ function Player:moveToRoom(nextRoom)
 
   --Move all suspects
   for i, suspect in ipairs(game.suspects) do
-    suspect:moveRandomly()
+    suspect:nextTurn()
   end
+  game.killer:nextTurn()
   Person.moveToRoom(self, nextRoom)
 
 end

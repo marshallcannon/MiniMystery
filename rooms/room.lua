@@ -8,6 +8,7 @@ function Room:init(x, y, connections)
   self.height = 100
   self.color = {love.math.random(15, 50), love.math.random(15, 50), love.math.random(15, 50)}
   self.connections = {}
+  self.people = {}
 
 end
 
@@ -28,4 +29,19 @@ function Room:getStandingPosition()
 
   return love.math.random(self.x + 10, self.x + self.width - 50), self.y + self.height - 40
 
+end
+
+function Room:addPerson(person)
+  table.insert(self.people, person)
+  return self.people
+end
+
+function Room:removePerson(person)
+  for i,occupant in ipairs(self.people) do
+    if occupant == person then
+      table.remove(self.people, i)
+      return true
+    end
+  end
+  return false
 end

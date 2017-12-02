@@ -8,6 +8,14 @@ function Suspect:init(room)
 
 end
 
+function Suspect:nextTurn()
+
+  if self.alive then
+    self:moveRandomly()
+  end
+
+end
+
 function Suspect:moveRandomly()
 
   local nextRoom = Util.randomTableValue(self.room.connections)

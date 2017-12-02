@@ -58,4 +58,8 @@ function House:makeRooms()
 end
 House.rooms = House:makeRooms()
 
+function House:randomRoom()
+  return self.rooms[love.math.random(#self.rooms)]
+end
+
 return House
