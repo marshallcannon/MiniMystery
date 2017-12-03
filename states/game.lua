@@ -21,12 +21,17 @@ function GameState:update(dt)
     end
   end
 
+  game.accusationPanel:update()
+
 end
 
 function GameState:draw()
 
-  game.house:draw()
+  love.graphics.setColor(255, 255, 255)
+  love.graphics.draw(assets.images.background, 0, 0)
   
+  game.house:draw()
+
   --Draw the mask
   love.graphics.stencil(function()
     for i,room in ipairs(game.house.rooms) do
@@ -42,6 +47,8 @@ function GameState:draw()
   love.graphics.setStencilTest()
 
   game.player:draw()
+
+  love.graphics.draw(assets.images.foreground, 0, 0)
 
   game.accusationPanel:draw()
 

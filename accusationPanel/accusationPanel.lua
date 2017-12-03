@@ -6,6 +6,13 @@ AccusationPanel.opacity = 0
 AccusationPanel.width = 600
 AccusationPanel.potentialSuspects = {}
 
+function AccusationPanel:update()
+
+  for i,suspectButton in ipairs(self.potentialSuspects) do
+    suspectButton:update()
+  end
+
+end
 
 function AccusationPanel:draw()
 
@@ -50,12 +57,10 @@ end
 
 function AccusationPanel:mousepressed(x, y, button)
 
-  if button == 1 then
-    for i, suspectButton in ipairs(self.potentialSuspects) do
-      if x >= suspectButton.x - suspectButton.width/2 and x <= suspectButton.x + suspectButton.width/2 then
-        if y >= suspectButton.y - suspectButton.height/2 and y <= suspectButton.y + suspectButton.height/2 then
-          suspectButton:click()
-        end
+  for i, suspectButton in ipairs(self.potentialSuspects) do
+    if x >= suspectButton.x - suspectButton.width/2 and x <= suspectButton.x + suspectButton.width/2 then
+      if y >= suspectButton.y - suspectButton.height/2 and y <= suspectButton.y + suspectButton.height/2 then
+        suspectButton:click(button)
       end
     end
   end

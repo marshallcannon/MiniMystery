@@ -20,13 +20,8 @@ end
 
 function Room:draw()
 
-  if self.width and self.height then
-    love.graphics.setColor(self.color)
-    love.graphics.rectangle('fill', self.x, self.y, self.width, self.height)
-  end
-
   if not self.visible then
-    love.graphics.setColor(0, 0, 0, 100)
+    love.graphics.setColor(0, 0, 0, 200)
     love.graphics.rectangle('fill', self.x, self.y, self.width, self.height)
   end
 

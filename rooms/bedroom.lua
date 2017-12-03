@@ -1,6 +1,6 @@
 require 'rooms/room'
 
-local Bedroom = Room(460, 150)
+local Bedroom = Room(420, 150)
 Bedroom.width = 140
 Bedroom.height = 100
 

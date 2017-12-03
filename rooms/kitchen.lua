@@ -1,6 +1,6 @@
 require 'rooms/room'
 
-local Kitchen = Room(200, 350)
+local Kitchen = Room(160, 350)
 Kitchen.width = 200
 Kitchen.height = 100
 

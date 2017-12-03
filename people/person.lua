@@ -4,7 +4,6 @@ function Person:init(room, image)
 
   self.room = room
   self.oldRoom = nil
-  self.image = image
   self.room:addPerson(self)
   self.x, self.y = self.room:getStandingPosition()
   self.width = 40
@@ -15,6 +14,18 @@ function Person:init(room, image)
   self.discovered = false
   self.moveComplete = true
 
+  self.image = image
+  --Randomize appearance
+  if not self.image then
+    self.appearance = {love.math.random(#assets.images.bodies), love.math.random(#assets.images.skin), love.math.random(#assets.images.faces)}
+    self.image = love.graphics.newCanvas(40, 40)
+    love.graphics.setCanvas(self.image)
+    love.graphics.draw(assets.images.bodySheet, assets.images.bodies[self.appearance[1]], 0, 0)
+    love.graphics.draw(assets.images.skinSheet, assets.images.skin[self.appearance[2]], 0, 0)
+    love.graphics.draw(assets.images.faceSheet, assets.images.faces[self.appearance[3]], 0, 0)
+    love.graphics.setCanvas()
+  end
+
 end
 
 function Person:update(dt)
@@ -23,17 +34,11 @@ end
 
 function Person:draw()
 
-  if self.image then
-    love.graphics.setColor(255, 255, 255, 255)
+  love.graphics.setColor(255, 255, 255, 255)
+  if self.alive then
     love.graphics.draw(self.image, self.x, self.y)
   else
-    if self.alive then
-      love.graphics.setColor(self.color)
-      love.graphics.rectangle('fill', self.x, self.y, self.width, self.height)
-    else
-      love.graphics.setColor({255, 0, 0})
-      love.graphics.rectangle('fill', self.x, self.y+self.height/2, self.width, self.height/2)
-    end
+    love.graphics.draw(self.image, self.x, self.y+47, -1.5708)
   end
 
 end
