@@ -12,4 +12,13 @@ function Util.randomTableValue(mappedTable)
   return array[love.math.random(1, #array)]
 end
 
+function Util.shuffleArray(array)
+  size = #array
+  for i = size, 1, -1 do
+    local rand = love.math.random(size)
+    array[i], array[rand] = array[rand], array[i]
+  end
+  return array
+end
+
 return Util

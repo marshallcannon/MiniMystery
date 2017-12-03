@@ -6,7 +6,6 @@ Killer = Class{__includes = {Person, Suspect} }
 function Killer:init(room)
 
   Suspect.init(self, room)
-  self.color = {0, 0, 0}
 
 end
 
@@ -21,8 +20,17 @@ function Killer:nextTurn()
 end
 
 function Killer:enterNewRoom()
+
+  --Sound alarm for existing corpses
+  for i,corpse in ipairs(self.room.corpses) do
+    if not corpse.discovered then
+      self.room.visible = true
+      love.audio.play(assets.sounds.scream)
+      corpse.discovered = true
+      game.accusationPanel:suspectDead(corpse)
+    end
+  end
   
-  print('Should I kill?')
   --If the player isn't here
   if game.player.room ~= self.room then
     --If we're alone with our victim
@@ -34,11 +42,7 @@ function Killer:enterNewRoom()
           if person ~= self then self:attack(person) end
         end
       end
-    else
-      print('Wrong number of people in room: '.. #self.room.people)
     end
-  else
-    print('The player is here')
   end
 
 end

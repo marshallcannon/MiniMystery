@@ -62,4 +62,12 @@ function House:randomRoom()
   return self.rooms[love.math.random(#self.rooms)]
 end
 
+function House:allRoomsInvisible()
+
+  for i,room in ipairs(self.rooms) do
+    room.visible = false
+  end
+
+end
+
 return House

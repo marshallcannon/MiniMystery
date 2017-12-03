@@ -1,7 +1,7 @@
 Vector = require 'libraries/hump/vector'
 Class = require 'libraries/hump/class'
 Timer = require 'libraries/hump/timer'
-GameState = require 'libraries/hump/gamestate'
+State = require 'libraries/hump/gamestate'
 Moody = require 'libraries/moody'
 Util = require 'libraries/util'
 Config = require 'config'
@@ -9,13 +9,36 @@ require 'people/suspect'
 require 'people/player'
 require 'people/killer'
 
+MenuState = require 'states/menu'
+GameState = require 'states/game'
+GameOverState = require 'states/gameOver'
+
 game = {}
 game.house = require 'house'
 game.suspects = {}
+game.corpses = {}
+game.accusationPanel = require 'accusationPanel/accusationPanel'
+
+game.turnActive = false
+game.victory = false
 
 game.debug = false
 
 function love.load()
+
+  --Load assets
+  assets = {}
+  assets.sounds = {}
+  assets.sounds.scream = love.audio.newSource('assets/sound/scream.wav')
+
+  assets.images = {}
+  assets.images.skull = love.graphics.newImage('assets/images/skull.png')
+  assets.images.player = love.graphics.newImage('assets/images/player.png')
+
+  assets.fonts = {}
+  assets.fonts.big = love.graphics.newFont('assets/fonts/Digory_Doodles_PS.ttf', 40)
+  assets.fonts.medium = love.graphics.newFont('assets/fonts/Digory_Doodles_PS.ttf', 30)
+  assets.fonts.small = love.graphics.newFont('assets/fonts/Digory_Doodles_PS.ttf', 15)
 
   game.player = Player(game.house:randomRoom())
   game.killer = Killer(game.house:randomRoom())
@@ -23,26 +46,45 @@ function love.load()
     table.insert(game.suspects, Suspect(game.house:randomRoom()))
   end
 
+  game.started = false
+
+  State.registerEvents()
+  State.switch(GameState)
 
 end
 
-function love.update(dt)
+function game:startGame()
 
-  Timer.update(dt)
-
-end
-
-function love.draw()
-
-  game.house:draw()
-  for i, suspect in ipairs(game.suspects) do
-    suspect:draw()
+  game.started = true
+  for i,room in ipairs(game.house.rooms) do
+    room.visible = false
   end
-  game.killer:draw()
-  game.player:draw()
+  game.player.room.visible = true
+
+  game.accusationPanel:addAll()
+  game.accusationPanel:sortSuspectButtons()
+  Timer.tween(1, game.accusationPanel, {opacity = 255}, 'linear')
 
 end
 
-function love.keypressed(key)
-  game.player:keypressed(key)
+function game:isTurnComplete()
+
+  for i,suspect in ipairs(self.suspects) do
+    if not suspect.moveComplete then return false end
+  end
+  if not game.killer.moveComplete then return false end
+  if not game.player.moveComplete then return false end
+  return true
+
+end
+
+function game:accuse(suspect)
+  
+  if suspect == game.killer then
+    game.victory = true
+  else
+    game.victory = false
+  end
+  State.push(GameOverState)
+
 end

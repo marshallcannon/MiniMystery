@@ -6,9 +6,11 @@ function Room:init(x, y, connections)
   self.y = y or 0
   self.width = 100
   self.height = 100
-  self.color = {love.math.random(15, 50), love.math.random(15, 50), love.math.random(15, 50)}
+  self.color = {love.math.random(50, 100), love.math.random(50, 100), love.math.random(50, 100)}
   self.connections = {}
   self.people = {}
+  self.corpses = {}
+  self.visible = true
 
 end
 
@@ -20,6 +22,11 @@ function Room:draw()
 
   if self.width and self.height then
     love.graphics.setColor(self.color)
+    love.graphics.rectangle('fill', self.x, self.y, self.width, self.height)
+  end
+
+  if not self.visible then
+    love.graphics.setColor(0, 0, 0, 100)
     love.graphics.rectangle('fill', self.x, self.y, self.width, self.height)
   end
 

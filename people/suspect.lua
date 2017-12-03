@@ -22,3 +22,18 @@ function Suspect:moveRandomly()
   self:moveToRoom(nextRoom)
 
 end
+
+function Suspect:enterNewRoom()
+
+  if self.alive then
+    for i,corpse in ipairs(self.room.corpses) do
+      if not corpse.discovered then
+        self.room.visible = true
+        love.audio.play(assets.sounds.scream)
+        corpse.discovered = true
+        game.accusationPanel:suspectDead(corpse)
+      end
+    end
+  end
+
+end
