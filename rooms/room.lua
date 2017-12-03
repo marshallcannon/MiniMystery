@@ -11,6 +11,7 @@ function Room:init(x, y, connections)
   self.people = {}
   self.corpses = {}
   self.visible = true
+  self.incomingPeople = 0
 
 end
 
@@ -29,7 +30,11 @@ end
 
 function Room:getStandingPosition()
 
-  return love.math.random(self.x + 10, self.x + self.width - 50), self.y + self.height - 40
+  local x = self.x+self.incomingPeople*20
+  if x > self.x + self.width-30 then x = self.x + self.width-30 end
+  local y = self.y + self.height - 40
+  self.incomingPeople = self.incomingPeople + 1
+  return x, y
 
 end
 

@@ -70,4 +70,20 @@ function House:allRoomsInvisible()
 
 end
 
+function House:allRoomsVisible()
+
+  for i,room in ipairs(self.rooms) do
+    room.visible = true
+  end
+
+end
+
+function House:resetRoomNumbers()
+
+  for i,room in ipairs(self.rooms) do
+    room.incomingPeople = 0
+  end
+
+end
+
 return House

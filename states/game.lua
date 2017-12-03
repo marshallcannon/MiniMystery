@@ -1,7 +1,11 @@
 local GameState = {}
 
-function GameState:enter()
+function GameState:init()
+  
+end
 
+function GameState:enter()
+  State.push(MenuState)
 end
 
 function GameState:update(dt)
@@ -17,6 +21,7 @@ function GameState:update(dt)
       end
       game.player:enterNewRoom()
       game.turnActive = false
+      game.house:resetRoomNumbers()
 
     end
   end

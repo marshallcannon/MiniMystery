@@ -1,0 +1,1 @@
+My entry for Ludum Dare 40. Find the murderer before they kill too many people!

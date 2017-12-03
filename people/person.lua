@@ -20,6 +20,7 @@ function Person:init(room, image)
     self.appearance = {love.math.random(#assets.images.bodies), love.math.random(#assets.images.skin), love.math.random(#assets.images.faces)}
     self.image = love.graphics.newCanvas(40, 40)
     love.graphics.setCanvas(self.image)
+    love.graphics.setColor(255, 255, 255)
     love.graphics.draw(assets.images.bodySheet, assets.images.bodies[self.appearance[1]], 0, 0)
     love.graphics.draw(assets.images.skinSheet, assets.images.skin[self.appearance[2]], 0, 0)
     love.graphics.draw(assets.images.faceSheet, assets.images.faces[self.appearance[3]], 0, 0)

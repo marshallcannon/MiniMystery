@@ -26,6 +26,12 @@ function AccusationPanel:draw()
 
 end
 
+function AccusationPanel:clear()
+
+  self.potentialSuspects = {}
+
+end
+
 function AccusationPanel:addAll()
 
   for i,suspect in ipairs(game.suspects) do
@@ -64,6 +70,16 @@ function AccusationPanel:mousepressed(x, y, button)
       end
     end
   end
+
+end
+
+function AccusationPanel:getScore()
+
+  local score = 0
+  for i, suspectButton in ipairs(self.potentialSuspects) do
+    if suspectButton.isAlive == false then score = score + 1 end
+  end
+  return score
 
 end
 

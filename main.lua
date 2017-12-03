@@ -12,6 +12,7 @@ require 'people/killer'
 MenuState = require 'states/menu'
 GameState = require 'states/game'
 GameOverState = require 'states/gameOver'
+HowToState = require 'states/howTo'
 
 game = {}
 game.house = require 'house'
@@ -26,6 +27,8 @@ game.debug = false
 
 function love.load()
 
+  love.graphics.setBackgroundColor(50, 50, 50)
+
   --Load assets
   assets = {}
 
@@ -39,6 +42,7 @@ function love.load()
   assets.images.player = love.graphics.newImage('assets/images/player.png')
   assets.images.background = love.graphics.newImage('assets/images/background.png')
   assets.images.foreground = love.graphics.newImage('assets/images/foreground.png')
+  assets.images.howTo = love.graphics.newImage('assets/images/howTo.png')
 
   --Sprite Sheets
   assets.images.bodySheet = love.graphics.newImage('assets/images/bodies.png')
@@ -60,7 +64,7 @@ function love.load()
   --Fonts
   assets.fonts = {}
   assets.fonts.big = love.graphics.newFont('assets/fonts/Digory_Doodles_PS.ttf', 40)
-  assets.fonts.medium = love.graphics.newFont('assets/fonts/Digory_Doodles_PS.ttf', 30)
+  assets.fonts.medium = love.graphics.newFont('assets/fonts/Digory_Doodles_PS.ttf', 25)
   assets.fonts.small = love.graphics.newFont('assets/fonts/Digory_Doodles_PS.ttf', 15)
 
   --Create People
@@ -110,6 +114,25 @@ function game:accuse(suspect)
     game.victory = false
   end
   State.push(GameOverState)
+
+end
+
+function game:restart()
+
+  --Create People
+  game.player = Player(game.house:randomRoom())
+  game.killer = Killer(game.house:randomRoom())
+  game.suspects = {}
+  game.accusationPanel:clear()
+  for i=1, Config.numberOfSuspects do
+    table.insert(game.suspects, Suspect(game.house:randomRoom()))
+  end
+
+  game.house:allRoomsVisible()
+
+  Timer.tween(1, game.accusationPanel, {opacity = 0}, 'linear')
+
+  game.started = false
 
 end
 
